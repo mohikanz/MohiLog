@@ -4,22 +4,21 @@ from __future__ import unicode_literals
 
 import requests
 import json
-from datetime import datetime
-from slacker import Slacker
+from datetime import datetime, timedelta
 from jinja2 import Template, Environment, FileSystemLoader
+from slacker import Slacker
 
 
 class MohiLogger(object):
-    slack_token = 'xoxb-318958510932-ddT3Lu8OBJoQuUiwRDUMtp8A'
-    slack_token2 = 'xoxp-170644065895-208280779190-320032068631-0329d46605be5879ced1b36b741be877'
     template_name = 'template/log.tpl'
     template = None
     channel_dict = None
     user_dict = None
 
     def __init__(self, **kwargs):
-        self.slack = Slacker(self.slack_token)
-        self.slack2 = Slacker(self.slack_token2)
+        from settings import slack_token, slack_token2
+        self.slack = Slacker(slack_token)
+        self.slack2 = Slacker(slack_token2)
         self.channel_dict = self.get_channel_dict()
         self.user_dict = self.get_user_dict()
         self.user_reverse_dict = self.get_user_reverse_dict()
@@ -56,25 +55,35 @@ class MohiLogger(object):
         """"
             {絵文字: url}の辞書を返す。
         """
-        pass
+        res = self.slack2.emoji.list()
+        return res.body['emoji']
 
     def get_channel_history(self, id):
         res = self.slack2.channels.history(id)
         return res.body['messages']
 
-    def resotre_ts(self, ts):
-        """ ts: unix epoch(float) """
-        # tsを日時に復元する
+    def restore_ts(self, ts):
+        """ unix epoch(float) からdatetimeへの変換 """
         return datetime.fromtimestamp(ts)
 
     def get_channel_log(self, channel):
+        """
+            チャンネルのログを取得する
+        """
         channel_id = self.channel_dict[channel]
+        emoji_dict = self.get_emoji_dict()
         messages = self.get_channel_history(channel_id)
-        print self.user_reverse_dict
         for message in messages:
             user_id = message.get('user')
             username = self.user_reverse_dict.get(user_id) or message.get('username')
-            print username, ':  ', message['text'], message.get('reactions')
+            for reaction in message.get('reactions', []):
+                emoji_name = reaction['name']
+                reaction['url'] = emoji_dict.get(emoji_name)
+                users_name = []
+                for user_id in reaction['users']:
+                    users_name.append(self.user_reverse_dict.get(user_id))
+                reaction['users_name'] = users_name
+        return messages
 
     def render_to_template(context):
         self.output_text = template.render(context)
@@ -82,34 +91,4 @@ class MohiLogger(object):
 
 ml = MohiLogger()
 log = ml.get_channel_log(u'lang_ジャバ')
-
-## user情報のdict埋め込み
-#for m in messages:
-#    username = m['username']
-#    print username
-#    m['userimg'] = users[username]
-#
-#
-#print messages[0].keys()
-#context = {
-#    'messages': messages,
-#}
-#
-#
-#print(disp_text)
-#
-#
-# userlist: [{}]
-#   u'profile', u'updated', u'tz', u'name', u'deleted', u'is_app_user', u'is_bot',
-#   u'tz_label', u'real_name', u'color', u'team_id', u'is_admin', u'is_ultra_restricted',
-#   u'is_restricted', u'is_owner', u'tz_offset', u'id', u'is_primary_owner'
-#
-#       profile: {}
-#       u'status_text', u'display_name', u'status_emoji', u'title', u'team', u'real_name', u'image_24',
-#       u'phone', u'real_name_normalized', u'image_512', u'image_72',
-#       u'image_32', u'image_48', u'skype', u'avatar_hash', u'display_name_normalized', u'email', u'image_192']
-#
-#    historyの中身: {}
-#    [u'has_more', u'messages', u'ok', u'is_limited']
-#       messages: {}
-#       messages [[u'username', u'attachments', u'icons', u'text', u'ts', u'subtype', u'type', u'bot_id']]
+print(log)
