@@ -9,9 +9,9 @@
 - どこかのブログに転送も考えたが、無料で使わせてもらってるのでそれもなんだか
 - というわけでバックアップ用ログと言う位置づけ
 
-## REQUIREMENT
+## REQUIREMENTS
 - SEE [requirements.txt](https://github.com/mohikanz/MohiLog/blob/master/requirements.txt)
-- APIを叩くためのトークンを自分で取得してsettings.pyに置いておく
+- APIを叩くためのトークンを自分で取得してroot/settings.pyに置いておく
 
 ## STATUS
 まだ実験段階なのでいろいろと汚い
