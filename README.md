@@ -1,4 +1,5 @@
-# GOAL
+# MohiLog - mohikanz.slack.comのアレをアレするアレ
+## GOAL
 - 日毎にログを収集
 - 絵文字も全て収集
 - jinjaでHTML化
@@ -7,12 +8,12 @@
 - どこかのブログに転送も考えたが、無料で使わせてもらってるのでそれもなんだか
 - というわけでバックアップ用ログと言う位置づけ
 
-# REQUIREMENT
+## REQUIREMENT
 - python2.7 (sorry)
 - jinja2
 - Slacker
 - APIを叩くためのトークンを自分で取得してsettings.pyに置いておく
 
-# STATUS
+## STATUS
 まだアレ
 
