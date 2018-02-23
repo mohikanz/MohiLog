@@ -14,16 +14,17 @@
 {% for message in messages %}
 <div>
     <div>
-        {{ messages.userimg }} {{ messages.username }}
+        <img src="{{ message.img_url }}"> {{ message.username }}
     </div>
     <div>
-        {{message.ts }} {{ message.text }}
+        {{ message.dt }} {{ message.text }}
     </div>
     <hr>
-        {% for reaction in messages.reactions %}
-        <img src="" title="{% for user in reaction.users %}{% endfor %}">
+        {% for reaction in message.reactions %}
+        <img width="32" src="{{ reaction.url }}" title="{% for user in reaction.users_name %}{{user}},{% endfor %}">
         {% endfor %}
     </div>
+    <hr>
 </div>
 {% endfor %}
 </body>
