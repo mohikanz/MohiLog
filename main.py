@@ -28,8 +28,7 @@ class MohiLogger(object):
         self.channel_dict = self._get_channel_dict()
         self.user_dict = self._get_user_dict()
         self.user_reverse_dict = self._get_user_reverse_dict()
-        self.emoji_dict = self._get_emoji_dict()
-
+        self.emoji_dict = self._get_emoji_dict() 
         # template
         env = Environment(loader=FileSystemLoader('.'))
         self.template = env.get_template(self.template_name)
@@ -66,6 +65,10 @@ class MohiLogger(object):
         return res.body['emoji']
 
     def get_channel_history(self, id):
+        """
+            channelの書き込み履歴を返す。
+            取得にはtoken2が必要。
+        """
         res = self.slack2.channels.history(id)
         return res.body['messages']
 
@@ -81,21 +84,30 @@ class MohiLogger(object):
         channel_id = self.channel_dict[channel]
         messages = self.get_channel_history(channel_id)
         for message in messages:
-            user_id = message.get('user')
-            username = self.user_reverse_dict.get(user_id) or message.get('username')
-            for reaction in message.get('reactions', []):
-                emoji_name = reaction['name']
-                reaction['url'] = self.emoji_dict.get(emoji_name, '')
-                users_name = []
-                for user_id in reaction['users']:
-                    users_name.append(self.user_reverse_dict.get(user_id))
-                reaction['users_name'] = users_name
-        return messages
+            self.process_each_message(message)
+        return {'messages': messages}
 
-    def render_to_template(context):
-        self.output_text = template.render(context)
+    def process_each_message(self, message):
+        user_id = message.get('user')
+        username = self.user_reverse_dict.get(user_id) or message.get('username')
+        message['text'] = self.replace_text(message['text'])
+        for reaction in message.get('reactions', []):
+            emoji_name = reaction['name']
+            reaction['url'] = self.emoji_dict.get(emoji_name, '')
+            users_name = []
+            for user_id in reaction['users']:
+                users_name.append(self.user_reverse_dict.get(user_id))
+            reaction['users_name'] = users_name
+
+    def replace_text(self, text):
+        # リンクをanchorタグに変換
+        # 絵文字をimgタグに変換
+        return text
+
+    def render_to_template(self, context):
+        return self.template.render(context)
 
 
 ml = MohiLogger()
-log = ml.get_channel_log(u'lang_ジャバ')
-print(log)
+context = ml.get_channel_log(u'lang_ジャバ')
+print ml.render_to_template(context)
