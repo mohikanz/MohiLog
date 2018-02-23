@@ -2,8 +2,6 @@
 
 from __future__ import unicode_literals
 
-import requests
-import json
 from datetime import datetime, timedelta
 from jinja2 import Template, Environment, FileSystemLoader
 from slacker import Slacker
