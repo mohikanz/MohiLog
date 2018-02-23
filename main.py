@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 
 from datetime import datetime, timedelta
 from jinja2 import Template, Environment, FileSystemLoader
-from slacker import Slacker
 
 
 class MohiLogger(object):
@@ -15,6 +14,7 @@ class MohiLogger(object):
 
     def __init__(self, **kwargs):
         from settings import slack_token, slack_token2
+        from slacker import Slacker
         self.slack = Slacker(slack_token)
         self.slack2 = Slacker(slack_token2)
         self.channel_dict = self.get_channel_dict()
