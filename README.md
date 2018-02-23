@@ -9,17 +9,24 @@
 - どこかのブログに転送も考えたが、無料で使わせてもらってるのでそれもなんだか
 - というわけでバックアップ用ログと言う位置づけ
 
-## REQUIREMENT
-- python2.7 (3でも大体OKなはず)
-- jinja2
-- Slacker
-- APIを叩くためのトークンを自分で取得してsettings.pyに置いておく
+## REQUIREMENTS
+- SEE [requirements.txt](https://github.com/mohikanz/MohiLog/blob/master/requirements.txt)
+- APIを叩くためのトークンを自分で取得してroot/settings.pyに置いておく
 
 ## STATUS
 まだ実験段階なのでいろいろと汚い
 
-- DONE:データの取得
-- WORKING:テンプレートへのデータの流し込み
-  - テンプレートのデザインが死滅しているので助け・・・
-- NOT_YET: Gdriveへのアップロード
-- NOT_YET: 自動投稿
+### DONE
+
+- データの取得
+- テンプレートへのデータの流し込み
+
+### TODO
+
+- ソート順が逆になっているので要修正
+- テンプレートのデザインが死滅しているので助け・・・
+- jsonの生データも残しておきたい
+- Gdriveへのアップロード
+- 自動投稿
+- 例外関連
+- モジュールとして独立させる
