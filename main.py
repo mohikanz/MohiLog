@@ -2,8 +2,8 @@
 
 from __future__ import unicode_literals
 
-from datetime import datetime, timedelta
-from jinja2 import Template, Environment, FileSystemLoader
+from datetime import datetime
+
 
 class MohiLogger(object):
     template_name = 'template/log.tpl'
@@ -21,6 +21,7 @@ class MohiLogger(object):
 
         from settings import slack_token, slack_token2
         from slacker import Slacker
+        from jinja2 import Environment, FileSystemLoader
 
         self.slack = Slacker(slack_token)
         self.slack2 = Slacker(slack_token2)
@@ -44,7 +45,9 @@ class MohiLogger(object):
             {ユーザ名: (id, icon_url,)}の辞書を返す。
         """
         res = self.slack.users.list()
-        return {m['name']: (m['id'], m['profile']['image_32']) for m in res.body['members']}
+        return {
+            m['name']: (m['id'], m['profile']['image_32'])
+            for m in res.body['members']}
 
     def _get_user_reverse_dict(self):
         """
@@ -88,8 +91,11 @@ class MohiLogger(object):
 
     def process_each_message(self, message):
         user_id = message.get('user')
-        message['username'] = self.user_reverse_dict.get(user_id) or message.get('username')
-        message['img_url'] = self.user_dict.get(message['username'], ('', ''))[1]
+        message['username'] = (
+            self.user_reverse_dict.get(user_id) or
+            message.get('username'))
+        message['img_url'] = (
+            self.user_dict.get(message['username'], ('', ''))[1])
         message['text'] = self._replace_text(message['text'])
         message['dt'] = self.display_ts(float(message['ts']))
         for reaction in message.get('reactions', []):
@@ -113,7 +119,7 @@ ml = MohiLogger()
 context = ml.get_channel_log(u'tsurai')
 html = ml.render_to_template(context)
 
-#ファイルへの書き込み
+# ファイルへの書き込み
 tmpfile = open("generate.html", 'w')
 tmpfile.write(html.encode('utf-8'))
 tmpfile.close()

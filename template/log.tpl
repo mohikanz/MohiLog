@@ -21,7 +21,7 @@
     </div>
     <hr>
         {% for reaction in message.reactions %}
-        <img width="16" src="{{ reaction.url }}" title="{% for user in reaction.users_name %}{{user}},{% endfor %}">
+        <img width="32" src="{{ reaction.url }}" title="{% for user in reaction.users_name %}{{user}},{% endfor %}">
         {% endfor %}
     </div>
     <hr>
