@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 
 from datetime import datetime
+import json
 
 
 class MohiLogger(object):
@@ -19,12 +20,12 @@ class MohiLogger(object):
             会話履歴取得用のトークン(slack_token2)を設定すること
         """
 
-        from settings import slack_token, slack_token2
+        from settings import SLACK_TOKEN, SLACK_TOKEN2
         from slacker import Slacker
         from jinja2 import Environment, FileSystemLoader
 
-        self.slack = Slacker(slack_token)
-        self.slack2 = Slacker(slack_token2)
+        self.slack = Slacker(SLACK_TOKEN)
+        self.slack2 = Slacker(SLACK_TOKEN2)
         self.channel_dict = self._get_channel_dict()
         self.user_dict = self._get_user_dict()
         self.user_reverse_dict = self._get_user_reverse_dict()
@@ -119,7 +120,13 @@ ml = MohiLogger()
 context = ml.get_channel_log(u'tsurai')
 html = ml.render_to_template(context)
 
-# ファイルへの書き込み
-tmpfile = open("generate.html", 'w')
-tmpfile.write(html.encode('utf-8'))
-tmpfile.close()
+# テンプレートファイルへの流し込み
+fh = open("generate.html", 'w')
+fh.write(html.encode('utf-8'))
+fh.close()
+
+# JSONデータの保存
+history = json.dumps(context)
+fh = open("history.json", 'w')
+fh.write(history.encode('utf-8'))
+fh.close()
