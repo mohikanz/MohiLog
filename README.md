@@ -15,5 +15,7 @@
 - APIを叩くためのトークンを自分で取得してsettings.pyに置いておく
 
 ## STATUS
-まだアレ
-
+- DONE:データの取得
+- WORKING:テンプレートへのデータの流し込み
+- NOT_YET: Gdriveへのアップロード
+- NOT_YET: 自動投稿
