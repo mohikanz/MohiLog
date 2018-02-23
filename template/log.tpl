@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,19 +14,17 @@
 {% for message in messages %}
 <div>
     <div>
-        {#
-        {{ message.userimg }} {{ message.username }}
-        {% endcomment %}
-        #}
+        <img src="{{ message.img_url }}"> {{ message.username }}
     </div>
     <div>
-        {{ message.ts }} {{ message.text }}
+        {{ message.dt }} {{ message.text }}
     </div>
     <hr>
         {% for reaction in message.reactions %}
-        <img src="{{ reaction.url }}" title="{% for user in reaction.users_name %}{{user}},{% endfor %}">
+        <img width="16" src="{{ reaction.url }}" title="{% for user in reaction.users_name %}{{user}},{% endfor %}">
         {% endfor %}
     </div>
+    <hr>
 </div>
 {% endfor %}
 </body>

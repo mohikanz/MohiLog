@@ -5,7 +5,6 @@ from __future__ import unicode_literals
 from datetime import datetime, timedelta
 from jinja2 import Template, Environment, FileSystemLoader
 
-
 class MohiLogger(object):
     template_name = 'template/log.tpl'
     template = None
@@ -28,7 +27,7 @@ class MohiLogger(object):
         self.channel_dict = self._get_channel_dict()
         self.user_dict = self._get_user_dict()
         self.user_reverse_dict = self._get_user_reverse_dict()
-        self.emoji_dict = self._get_emoji_dict() 
+        self.emoji_dict = self._get_emoji_dict()
         # template
         env = Environment(loader=FileSystemLoader('.'))
         self.template = env.get_template(self.template_name)
@@ -72,9 +71,9 @@ class MohiLogger(object):
         res = self.slack2.channels.history(id)
         return res.body['messages']
 
-    def restore_ts(self, ts):
+    def display_ts(self, ts):
         """ unix epoch(float) からdatetimeへの変換 """
-        return datetime.fromtimestamp(ts)
+        return '{0:%Y-%m-%d %H:%M}'.format(datetime.fromtimestamp(ts))
 
     def get_channel_log(self, channel):
         """
@@ -89,8 +88,10 @@ class MohiLogger(object):
 
     def process_each_message(self, message):
         user_id = message.get('user')
-        username = self.user_reverse_dict.get(user_id) or message.get('username')
-        message['text'] = self.replace_text(message['text'])
+        message['username'] = self.user_reverse_dict.get(user_id) or message.get('username')
+        message['img_url'] = self.user_dict.get(message['username'], ('', ''))[1]
+        message['text'] = self._replace_text(message['text'])
+        message['dt'] = self.display_ts(float(message['ts']))
         for reaction in message.get('reactions', []):
             emoji_name = reaction['name']
             reaction['url'] = self.emoji_dict.get(emoji_name, '')
@@ -99,9 +100,9 @@ class MohiLogger(object):
                 users_name.append(self.user_reverse_dict.get(user_id))
             reaction['users_name'] = users_name
 
-    def replace_text(self, text):
-        # リンクをanchorタグに変換
-        # 絵文字をimgタグに変換
+    def _replace_text(self, text):
+        # TODO: リンクをanchorタグに変換
+        # TODO: 絵文字をimgタグに変換
         return text
 
     def render_to_template(self, context):
@@ -109,5 +110,10 @@ class MohiLogger(object):
 
 
 ml = MohiLogger()
-context = ml.get_channel_log(u'lang_ジャバ')
-print ml.render_to_template(context)
+context = ml.get_channel_log(u'tsurai')
+html = ml.render_to_template(context)
+
+#ファイルへの書き込み
+tmpfile = open("generate.html", 'w')
+tmpfile.write(html.encode('utf-8'))
+tmpfile.close()
