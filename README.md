@@ -1,5 +1,6 @@
-# MohiLog - mohikanz.slack.comのアレをアレするアレ
+# MohiLog - mohikanz.slack.comのアレをアレする
 ## GOAL
+最近流れが早いのですぐに見れなくなる、なので
 - 日毎にログを収集
 - 絵文字も全て収集
 - jinja2でHTML化
