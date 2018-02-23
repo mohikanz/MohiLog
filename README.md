@@ -10,9 +10,7 @@
 - というわけでバックアップ用ログと言う位置づけ
 
 ## REQUIREMENT
-- python2.7 (3でも大体OKなはず)
-- jinja2
-- Slacker
+- SEE requirement.txt
 - APIを叩くためのトークンを自分で取得してsettings.pyに置いておく
 
 ## STATUS
