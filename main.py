@@ -12,7 +12,7 @@ from jinja2 import Template, Environment, FileSystemLoader
 class MohiLogger(object):
     slack_token = 'xoxb-318958510932-ddT3Lu8OBJoQuUiwRDUMtp8A'
     slack_token2 = 'xoxp-170644065895-208280779190-320032068631-0329d46605be5879ced1b36b741be877'
-    template_name = 'template.tpl'
+    template_name = 'template/log.tpl'
     template = None
     channel_dict = None
     user_dict = None
@@ -72,7 +72,6 @@ class MohiLogger(object):
         messages = self.get_channel_history(channel_id)
         print self.user_reverse_dict
         for message in messages:
-            print message.keys()
             user_id = message.get('user')
             username = self.user_reverse_dict.get(user_id) or message.get('username')
             print username, ':  ', message['text'], message.get('reactions')
