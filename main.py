@@ -13,8 +13,15 @@ class MohiLogger(object):
     user_dict = None
 
     def __init__(self, **kwargs):
+        """
+            settings.pyを作り、
+            チャンネル一覧取得用のトークン(slack_token),
+            会話履歴取得用のトークン(slack_token2)を設定すること
+        """
+
         from settings import slack_token, slack_token2
         from slacker import Slacker
+
         self.slack = Slacker(slack_token)
         self.slack2 = Slacker(slack_token2)
         self.channel_dict = self.get_channel_dict()
