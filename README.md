@@ -10,7 +10,7 @@
 - というわけでバックアップ用ログと言う位置づけ
 
 ## REQUIREMENT
-- SEE requirement.txt
+- SEE [requirements.txt](https://github.com/mohikanz/MohiLog/blob/master/requirements.txt)
 - APIを叩くためのトークンを自分で取得してsettings.pyに置いておく
 
 ## STATUS
