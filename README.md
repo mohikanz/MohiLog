@@ -8,6 +8,7 @@
 - ↑を共有設定にして、どこかのチャンネルにリンクを自動投稿
 - どこかのブログに転送も考えたが、無料で使わせてもらってるのでそれもなんだか
 - というわけでバックアップ用ログと言う位置づけ
+- mohikanzでなくてもスラックワークスペースであれば普通に動くはず
 
 ## REQUIREMENTS
 - SEE [requirements.txt](https://github.com/mohikanz/MohiLog/blob/master/requirements.txt)
@@ -30,3 +31,4 @@
 - 自動投稿
 - 例外関連
 - モジュールとして独立させる
+- 出来ればラムダかなんかで動かしたい
