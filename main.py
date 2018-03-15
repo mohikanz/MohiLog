@@ -121,7 +121,7 @@ class MohiLogger(object):
 
 
 ml = MohiLogger()
-context = ml.get_channel_log(u'_checker')
+context = ml.get_channel_log(u'tsurai')
 html = ml.render_to_template(context)
 
 # テンプレートファイルへの流し込み
