@@ -1,2 +1,5 @@
 *.pyc
 settings.py
+generate.html
+history.json
+

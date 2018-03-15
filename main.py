@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 from datetime import datetime
 import json
-
+import argparse
 
 class MohiLogger(object):
     template_name = 'template/log.tpl'
@@ -116,17 +116,25 @@ class MohiLogger(object):
         return self.template.render(context)
 
 
-ml = MohiLogger()
-context = ml.get_channel_log(u'tsurai')
-html = ml.render_to_template(context)
+if __name__ == '__main__':
 
-# テンプレートファイルへの流し込み
-fh = open("generate.html", 'w')
-fh.write(html.encode('utf-8'))
-fh.close()
+    parser = argparse.ArgumentParser(description='Mohikanz Log Fetcher')
+    parser.add_argument('-c', '--channel', type=str, default='tsurai',
+                        help='Fetching channel name')
 
-# JSONデータの保存
-history = json.dumps(context)
-fh = open("history.json", 'w')
-fh.write(history.encode('utf-8'))
-fh.close()
+    args = parser.parse_args()
+
+    ml = MohiLogger()
+    context = ml.get_channel_log(args.channel)
+    html = ml.render_to_template(context)
+
+    # テンプレートファイルへの流し込み
+    fh = open("generate.html", 'w')
+    fh.write(html.encode('utf-8'))
+    fh.close()
+
+    # JSONデータの保存
+    history = json.dumps(context)
+    fh = open("history.json", 'w')
+    fh.write(history.encode('utf-8'))
+    fh.close()
