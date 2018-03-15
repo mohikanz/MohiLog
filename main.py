@@ -125,7 +125,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     ml = MohiLogger()
-    context = ml.get_channel_log(args.channel)
+    context = ml.get_channel_log( unicode(args.channel, 'utf_8') )
     html = ml.render_to_template(context)
 
     # テンプレートファイルへの流し込み
