@@ -86,6 +86,10 @@ class MohiLogger(object):
         """
         channel_id = self.channel_dict[channel]
         messages = self.get_channel_history(channel_id)
+
+        # `ts` を見て最新の投稿日が最後に来るようにする
+        messages.sort(key=lambda m: float(m['ts']))
+
         for message in messages:
             self.process_each_message(message)
         return {'messages': messages}
