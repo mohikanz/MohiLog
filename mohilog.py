@@ -129,7 +129,7 @@ class MohiLogWriter(object):
         env = Environment(loader=FileSystemLoader('.'))
         template = env.get_template(template_name)
         html = template.render(self.context)
-        if self.output_file == 'stdout':
+        if self.output_file == '-':
             print(html)
         else:
             fh = open(self.output_file or 'mohikanz.html', 'w')
@@ -143,7 +143,7 @@ class MohiLogWriter(object):
     def _write_json(self):
         """ JSON出力 """
         history = json.dumps(self.context)
-        if self.output_file == 'stdout':
+        if self.output_file == '-':
             print(history)
         else:
             fh = open(self.output_file or "mohikanz.json", 'w')
