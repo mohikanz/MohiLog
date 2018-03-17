@@ -36,4 +36,4 @@
 
 ### LICENSE
 
-MPL(Mohikan Public License)
+MPL(Mohikan Public License) - Fully compatible with MIT
