@@ -32,3 +32,8 @@
 - 例外関連
 - モジュールとして独立させる
 - 出来ればラムダかなんかで動かしたい
+- google spreadsheetへの書き込み
+
+### LICENSE
+
+MPL(Mohikan Public License)
