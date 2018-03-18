@@ -23,14 +23,18 @@ $ python main.py
 
 ### オプション
 - -c 取得チャンネル
+
     デフォルト： #tsurai
 
 - -t 出力タイプ
+
     json(デフォルト), html, gspread
 
 - -o 出力ファイル名
+
     デフォルトではmohikanz.(type)となる
-    '-o -'にすると標準出力に
+
+    -o - で標準出力に
 
 
 ## STATUS
@@ -49,7 +53,6 @@ $ python main.py
 - google spreadsheetへの書き込み
 - 自動投稿
 - 例外関連
-- モジュールとして独立させる
 - 出来ればラムダかなんかで動かしたい
 
 
